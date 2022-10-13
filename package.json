@@ -1,0 +1,23 @@
+{
+  "name": "bsale-store-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hecey/TTBS-store-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hecey/TTBS-store-backend/issues"
+  },
+  "homepage": "https://github.com/hecey/TTBS-store-backend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
