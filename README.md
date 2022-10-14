@@ -249,3 +249,19 @@ Ejemplos
 * heroku config:set password=contraseña
 * heroku config:set database=NombreDeBaseDeDatos
 * heroku config:set PORT=80
+
+#### Local
+
+Definir variable de entorno:
+
+Crear archivo .env in la raíz
+
+Ejemplos
+
+```js
+host='host'
+user='user'
+password='password'
+database='database'
+PORT = 80
+```
