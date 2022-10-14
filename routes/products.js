@@ -13,4 +13,14 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+
+router.get('/getNumPages', async function(req, res, next) {
+  try {
+    res.json(await products.getNumPages(req.query.categoryId,req.query.name));
+  } catch (err) {
+    console.error(`Error while getting products `, err.message);
+    next(err);
+  }
+});
+
 module.exports = router;

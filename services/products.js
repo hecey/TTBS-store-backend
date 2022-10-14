@@ -27,6 +27,29 @@ async function getMultiple(page = 1, categoryId, name) {
   };
 }
 
+async function getNumPages(categoryId, name) {
+  const category = helper.searchCategory(categoryId);
+  const search = categoryId
+    ? ` p.category='${category}' `
+    : name
+    ? ` p.name like '%${name}%' `
+    : '';
+  const where = search != "" ? `where ${search}` : "";
+
+  const rows = await db.query(
+    `SELECT CEILING(COUNT(*) / ${config.listPerPage}) as pages
+    FROM product as p
+    ${where}
+    `
+  );
+  const data = helper.emptyOrRows(rows);
+
+  return {
+    data
+  };
+}
+
 module.exports = {
   getMultiple,
+  getNumPages
 };
