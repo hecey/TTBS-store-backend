@@ -8,6 +8,6 @@ const config = {
       password: process.env.password,
       database: process.env.database,
     },
-    listPerPage: 10,
+    listPerPage: 9,
   };
   module.exports = config;
