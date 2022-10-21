@@ -23,7 +23,7 @@ async function getMultiple(page = 1, categoryId, name) {
 
   return {
     data,
-    meta,
+    meta
   };
 }
 
@@ -43,9 +43,11 @@ async function getNumPages(categoryId, name) {
     `
   );
   const data = helper.emptyOrRows(rows);
+  const meta = { page };
 
   return {
-    data
+    data,
+    meta
   };
 }
 

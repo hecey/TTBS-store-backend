@@ -1,23 +1,86 @@
-# Servicios - Store App
+<h1>Store App(Backend)</h1>
 
-Listar productos, categorías, obtener total de paginas.
+[![NodeJs][NodeJs.com]][NodeJs-url] [![Express][Expressjs.com]][Expressjs-url]
 
-Tabla de contenido
+**Objetivo**:
 
-* [Productos](#Productos)
-  * [Listar productos](#Listar-productos)
-  * [Obtener numero de páginas](#Obtener-numero-de-páginas)
-* [Categorías](#Categorías)
-  * [Listar Categorías](#Listar-categorías)
+API Rest para consumir una base de datos MySQL y obtener el listado de categorías y productos de la tienda online, en cual retornada el la información en formato Json para poder ser consumida por la APP cliente.
 
-* [Configuración](#Configuración)
+Esta construido con nodeJS, y la librería Express.
+
+**NodeJS**: Es un entorno en tiempo de ejecución multiplataforma para la capa del servidor (en el lado del servidor) basado en JavaScript.
+
+**Express**: Express es una infraestructura de aplicaciones web Node.js mínima y flexible que proporciona un conjunto sólido de características para las aplicaciones web y móviles.
+
+**Características del servicio**:
+
+* Permite obtener un listado de categorías de productos de la base de datos MySQL
+* Permite obtener un listado de producto de la base de datos MySQL, por defecto obtendrá la categoría con categoryId=1
+* Permite filtrar el listado de producto de la base de datos MySQL, por medio de una palabra clave
+* Permite obtener el numero de paginas para un listado de producto de la base de datos MySQL
+
+<h2>Tabla de contenido</h2>
+
+- [Configuración](#configuración)
+  - [config.js](#configjs)
+- [Productos](#productos)
+  - [Listar productos](#listar-productos)
+    - [Estructura JSON](#estructura-json)
+    - [GET lista de productos](#get-lista-de-productos)
+      - [Ejemplos](#ejemplos)
+    - [Respuesta](#respuesta)
+  - [Obtener numero de páginas](#obtener-numero-de-páginas)
+    - [Estructura JSON](#estructura-json-1)
+    - [GET Numero de páginas](#get-numero-de-páginas)
+      - [Ejemplos](#ejemplos-1)
+    - [Respuesta](#respuesta-1)
+- [Categorías](#categorías)
+  - [Listar categorías](#listar-categorías)
+    - [Estructura JSON](#estructura-json-2)
+    - [GET lista de categorías](#get-lista-de-categorías)
+      - [Respuesta](#respuesta-2)
+- [Heroku - Comandos](#heroku---comandos)
+  - [Remote](#remote)
+  - [Local](#local)
+
+## Configuración
+
+### config.js
+
+Los productos pueden llamarse mediante parámetros (page, categoryId, name).
+
+```js
+require('dotenv/config');
+
+const config = {
+    db: {
+      /* don't expose password or any sensitive info, done only for demo */
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database,
+    },
+    listPerPage: 9,
+  };
+  module.exports = config;
+```
+
+Parámetros
+
+* **db** :  Arreglo con los parámetros para conectarse a la base de datos
+  * **host** : URL del servidor de base de datos
+  * **user** : Usuario de la base de datos
+  * **password** : Contraseña de la base de datos
+  * **database** : Nombre de la base de datos
+* **listPerPage** : Numero de items por página
+
 ## Productos
 
 ### Listar productos
 
 Los productos pueden llamarse mediante parámetros (page, categoryId, name).
 
-#### Parámetros
+Parámetros
 
 **page** :  Numero entero representa a pagina solicitada acorde a numero de items por pagina
 **categoryId** : Numero entero representa Id de la categoría.
@@ -57,7 +120,7 @@ Al realizar una petición HTTP, el servicio retornara un JSON con la siguiente e
 
 * GET /products retornara todos los productos acorde al limite de paginado.
 
-##### Parámetros
+Parámetros
 
 * **page** :  Permite filtrar por pagina acorde a numero de items por pagina. Por defecto su valor es 1
 * **categoryId** : Permite filtrar por categoría
@@ -104,7 +167,7 @@ En el caso de necesitar filtro por **categoryId** el parámetro name no debe ser
 
 La cantidad de paginas puede obtenerse mediante parámetros (page, categoryId, name).
 
-#### Parámetros
+Parámetros
 
 **categoryId** : Numero entero representa Id de la categoría.
 **name** : Cadena de texto con el nombre del producto o palabra clave de búsqueda
@@ -130,7 +193,7 @@ Al realizar una petición HTTP, el servicio retornara un JSON con la siguiente e
 
 * GET /products retornara número de páginas acorde al limite de paginado.
 
-##### Parámetros
+Parámetros
 
 * **categoryId** : Permite filtrar por categoría
 * **name** : Permite filtrar por nombre de producto
@@ -160,7 +223,7 @@ En el caso de necesitar filtro por **categoryId** el parámetro name no debe ser
 
 ## Categorías
 
-## Listar categorías
+### Listar categorías
 
 #### Estructura JSON
 
@@ -205,40 +268,12 @@ Al realizar una petición HTTP, el servicio retornara un JSON con la siguiente e
     ]
 }
 ```
-## Configuración
 
-### config.js
-
-Los productos pueden llamarse mediante parámetros (page, categoryId, name).
-
-```js
-require('dotenv/config');
-
-const config = {
-    db: {
-      /* don't expose password or any sensitive info, done only for demo */
-      host: process.env.host,
-      user: process.env.user,
-      password: process.env.password,
-      database: process.env.database,
-    },
-    listPerPage: 9,
-  };
-  module.exports = config;
-```
-
-##### Parámetros
-
-* **db** :  Arreglo con los parámetros para conectarse a la base de datos
-  * **host** : URL del servidor de base de datos
-  * **user** : Usuario de la base de datos
-  * **password** : Contraseña de la base de datos
-  * **database** : Nombre de la base de datos
-* **listPerPage** : Numero de items por página
-
-#### Heroku - Comandos
+## Heroku - Comandos
 
 Definir variable de entorno:
+
+### Remote
 
 * heroku config:set var_name = var_value
 
@@ -250,7 +285,7 @@ Ejemplos
 * heroku config:set database=NombreDeBaseDeDatos
 * heroku config:set PORT=80
 
-#### Local
+### Local
 
 Definir variable de entorno:
 
@@ -265,3 +300,8 @@ password='password'
 database='database'
 PORT = 80
 ```
+
+[NodeJs.com]: https://img.shields.io/badge/NodeJs-563D7C?style=for-the-badge&logoColor=white
+[NodeJs-url]: https://nodejs.org/en/
+[Expressjs.com]: https://img.shields.io/badge/Express-cdc44a?style=for-the-badge&logo=Expressjs&logoColor=black
+[Expressjs-url]: https://expressjs.com/
