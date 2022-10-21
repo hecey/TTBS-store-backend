@@ -9,5 +9,6 @@ const config = {
       database: process.env.database,
     },
     listPerPage: 9,
+    multipleStatements: false
   };
   module.exports = config;
