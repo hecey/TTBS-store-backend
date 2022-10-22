@@ -60,7 +60,7 @@ async function getNumPages(categoryId, name) {
     whereParam = categoryId
   }
 
-  if (name) {
+  if (name || categoryId =="") {
     whereFilter = "p.name like concat('%',?,'%')"
     whereParam = (name) ? name : ''
   }
