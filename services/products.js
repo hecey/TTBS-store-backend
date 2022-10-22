@@ -22,9 +22,9 @@ async function getMultiple(page = 1, categoryId, name) {
     whereParam = categoryId
   }
 
-  if (name) {
+  if (name || categoryId =="") {
     whereFilter = "p.name like concat('%',?,'%')"
-    whereParam = name
+    whereParam = (name) ? name : ''
   }
 
   const sqlQuery = `SELECT p.id, p.name, p.url_image, p.price, p.discount FROM product as p where ${whereFilter} LIMIT ? offset ?`
@@ -62,7 +62,7 @@ async function getNumPages(categoryId, name) {
 
   if (name) {
     whereFilter = "p.name like concat('%',?,'%')"
-    whereParam = name
+    whereParam = (name) ? name : ''
   }
 
   const sqlQuery = `SELECT CEILING(COUNT(*) / ${config.listPerPage} ) as pages FROM product as p where ${whereFilter}`
