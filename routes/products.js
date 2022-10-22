@@ -18,7 +18,7 @@ router.get('/getNumPages', async function(req, res, next) {
   try {
     res.json(await products.getNumPages(req.query.categoryId,req.query.name));
   } catch (err) {
-    console.error(`Error while getting products `, err.message);
+    console.error(`Error while getting pagination length `, err.message);
     next(err);
   }
 });

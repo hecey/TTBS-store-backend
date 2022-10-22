@@ -3,25 +3,29 @@ const helper = require("../helper");
 const config = require("../config");
 
 async function getMultiple(page = 1, categoryId, name) {
-  //Se previene SQLInjection con escape
-  categoryId = db.escape(categoryId);
-  page = db.escape(page);
-  name = db.escape(name);
-
   const offset = helper.getOffset(page, config.listPerPage);
 
   //Filtro de búsqueda
-  const searchFilter = categoryId // si existe una un id de categoría se la agrega a la búsqueda  como filtro
-    ? ` p.category='${categoryId}' `
-    : name // si existe un nombre de producto se lo agrega a la búsqueda como filtro
-      ? ` p.name like '%${name}%' `
-      : '';
+  let whereFilter = ""
+  let whereParam = ""
+  // si existe una un id de categoría se la agrega a la búsqueda  como filtro
+  if (categoryId) {
+    whereFilter = 'p.category=?'
+    whereParam = categoryId
+  }
 
-  //Si el filtro no esta vació se agrega el where a la consulta
-  const where = searchFilter != "" ? `where ${search}` : "";
+  if (name) {
+    whereFilter = "p.name like concat('%',?,'%')"
+    whereParam = name
+  }
 
-  const rows = await db.query(
-    'SELECT p.id, p.name, p.url_image, p.price, p.discount FROM product as p ? LIMIT ?,?', where, offset, config.listPerPage);
+  const sqlQuery = `SELECT p.id, p.name, p.url_image, p.price, p.discount FROM product as p where ${whereFilter} LIMIT ? offset ?`
+  //Se previene SQLInjection con placeholder que realiza escaping
+  const rows = await db.query(sqlQuery, [whereParam, config.listPerPage, offset], function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+
   const data = helper.emptyOrRows(rows);
   const meta = { page };
 
@@ -32,30 +36,29 @@ async function getMultiple(page = 1, categoryId, name) {
 }
 
 async function getNumPages(categoryId, name) {
-  //Se previene SQLInjection con escape
-  categoryId = db.escape(categoryId);
-  name = db.escape(name);
 
   //Filtro de búsqueda
-  const category = helper.searchCategory(categoryId);
-  const search = categoryId // si existe una un id de categoría se la agrega a la búsqueda  como filtro
-    ? ` p.category='${category}' `
-    : name // si existe un nombre de producto se lo agrega a la búsqueda como filtro
-      ? ` p.name like '%${name}%' `
-      : '';
+  let whereFilter = ""
+  let whereParam = ""
 
-  //Si el filtro no esta vació se agrega el where a la consulta
-  const where = search != "" ? `where ${search}` : "";
+  if (categoryId) {
+    whereFilter = 'p.category=?'
+    whereParam = categoryId
+  }
 
-  const rows = await db.query(
-    'SELECT CEILING(COUNT(*) / ? ) as pages FROM product as p ?', config.listPerPage, where
-  );
+  if (name) {
+    whereFilter = "p.name like concat('%',?,'%')"
+    whereParam = name
+  }
+
+  const sqlQuery = `SELECT CEILING(COUNT(*) / ${config.listPerPage} ) as pages FROM product as p where ${whereFilter}`
+
+  //Se previene SQLInjection con placeholder que realiza escaping
+  const rows = await db.query(sqlQuery, [whereParam]);
   const data = helper.emptyOrRows(rows);
-  const meta = { page };
 
   return {
-    data,
-    meta
+    data
   };
 }
 
