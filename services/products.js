@@ -2,6 +2,14 @@ const db = require("./db");
 const helper = require("../helper");
 const config = require("../config");
 
+/**
+ * Obtiene la lista de productos de acuerdo a los filtros
+ *
+ * @param {number} page=1 Numero de pagina
+ * @param {number} categoryId Id de categoría
+ * @param {string} name Nombre de producto
+ * @returns {json} Listado de productos
+ */
 async function getMultiple(page = 1, categoryId, name) {
   const offset = helper.getOffset(page, config.listPerPage);
 
@@ -35,6 +43,12 @@ async function getMultiple(page = 1, categoryId, name) {
   };
 }
 
+/**
+ * Retorna el numero total de paginas según el filtro
+ * @param {number} categoryId Id de categoría
+ * @param {string} name Nombre de producto
+ * @returns {Json} Numero total de paginas
+ */
 async function getNumPages(categoryId, name) {
 
   //Filtro de búsqueda

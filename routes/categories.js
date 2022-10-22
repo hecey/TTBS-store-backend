@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const products = require('../services/categories');
 
-
+// Ruta Obtener listado de categorías
 router.get('/', async function(req, res, next) {
   try {
     res.json(await products.getCategories());

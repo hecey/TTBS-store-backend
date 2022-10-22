@@ -10,6 +10,8 @@ app.use(
     extended: true,
   })
 );
+
+//Rutas o endpoints
 app.get("/", (req, res) => {
   res.json({ message: "ok" });
 });
