@@ -29,7 +29,7 @@ async function getMultiple(page = 1, categoryId, name) {
 
   const sqlQuery = `SELECT p.id, p.name, p.url_image, p.price, p.discount FROM product as p where ${whereFilter} LIMIT ? offset ?`
   //Se previene SQLInjection con placeholder que realiza escaping
-  const rows = await db.query(sqlQuery, [whereParam, config.listPerPage, offset], function (err, result) {
+  const rows = await db.query(sqlQuery, [whereParam, config.listPerPage.toString(), offset.toString()], function (err, result) {
     if (err) throw err;
     console.log(result);
   });
