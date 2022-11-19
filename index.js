@@ -6,7 +6,7 @@ const categories = require("./routes/categories");
 const cors = require('cors');
 
 app.use(cors({
-     origin: "http://localhost:5500"
+     origin: process.env.origin
   }));
 
 app.use(express.json());
