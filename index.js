@@ -3,6 +3,11 @@ const app = express();
 const port = process.env.PORT || 3000;
 const products = require("./routes/products");
 const categories = require("./routes/categories");
+const cors = require('cors');
+
+app.use(cors({
+     origin: "http://localhost:5500"
+  }));
 
 app.use(express.json());
 app.use(
